@@ -135,13 +135,7 @@ app.post("/refield/signup", function (req, res) {
 });
 
 //test Cloud Build
-app.get("/refield/accounts", (req, res) => {
-  let sql = "SELECT * FROM account";
-  let query = conn.query(sql, (err, results) => {
-    if (err) throw err;
-    res.send(JSON.stringify({ status: 200, error: null, response: results }));
-  });
-});
+
 
 //Server listening
 var port = process.env.PORT || 5000;
