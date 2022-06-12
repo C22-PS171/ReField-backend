@@ -31,7 +31,6 @@ conn.connect((err) => {
       CREATE TABLE IF NOT EXISTS account (
         id_account INT NOT NULL AUTO_INCREMENT,
         email VARCHAR(255) UNIQUE NOT NULL,
-        name VARCHAR(255) NOT NULL,
         password VARCHAR(255) NOT NULL,
         PRIMARY KEY(id_account))`;
 
@@ -39,10 +38,10 @@ conn.connect((err) => {
       var checkRowAccount = "SELECT COUNT(*) as total FROM account";
       conn.query(checkRowAccount, function (errs, results) {
         if (results[0].total == 0) {
-          var sqlAccountDummy = "
-            INSERT INTO account (id_account, email, name, password) VALUES
-              ('1','refield1@gmail.com', 'ReField1', md5('ASD12345.')),
-              ('2','refield2@gmail.com', 'ReField2', md5('ASD12345.'))";
+          var sqlAccountDummy = `
+            INSERT INTO account (id_account, email, password) VALUES
+              ('1','refield1@gmail.com',md5('ASD12345.')),
+              ('2','refield2@gmail.com',md5('ASD12345.'))`;
           conn.query(sqlAccountDummy, function (errs, resultst) {
             if (errs) throw errs;
           });
@@ -104,7 +103,7 @@ app.delete("/refield/delaccounts/:id", (req, res) => {
 });
 
 //LOGIN USERTS
-app.get("/refield/login", function (req, res) {
+app.post("/refield/login", function (req, res) {
   let sql = "SELECT * FROM account WHERE email = ?  AND password = ? LIMIT 1";
 
   conn.query(sql, [req.body.email, md5(req.body.password)], (err, results) => {
@@ -121,8 +120,8 @@ app.get("/refield/login", function (req, res) {
 });
 
 //post account
-app.post('/refield/register', (req, res) => {
-  let data = {name: req.body.name, email: req.body.email, password: req.body.password};
+app.post('/refeield/register',(req, res) => {
+  let data = {email: req.body.email, password: req.body.password};
   let sql = "INSERT INTO account SET ?";
   let query = conn.query(sql, data,(err, results) => {
     if(err) throw err;
@@ -130,19 +129,14 @@ app.post('/refield/register', (req, res) => {
   });
 });
 
-// app.post("/refield/signup", function (req, res) {
-//   try {
-//     let sql = `INSERT INTO account(email, name, password) VALUES (?)`;
-
-//     let values = [req.body.email, req.body.name, md5(req.body.password)];
-
-//     conn.query(sql, [values], (err, results) => {
-//       res.send(JSON.stringify({ error: err, response: results }));
-//     });
-//   } catch (error) {
-//     return error.message;
-//   }
-// });
+//test Cloud Build
+app.get("/refield/accounts", (req, res) => {
+  let sql = "SELECT * FROM account";
+  let query = conn.query(sql, (err, results) => {
+    if (err) throw err;
+    res.send(JSON.stringify({ status: 200, error: null, response: results }));
+  });
+});
 
 //Server listening
 var port = process.env.PORT || 5000;
