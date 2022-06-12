@@ -103,7 +103,7 @@ app.delete("/refield/delaccounts/:id", (req, res) => {
 });
 
 //LOGIN USERTS
-app.post("/refield/login", function (req, res) {
+app.post("/refield/login",  (req, res) => {
   let sql = "SELECT * FROM account WHERE email = ?  AND password = ? LIMIT 1";
 
   conn.query(sql, [req.body.email, md5(req.body.password)], (err, results) => {
