@@ -31,6 +31,7 @@ conn.connect((err) => {
       CREATE TABLE IF NOT EXISTS account (
         id_account INT NOT NULL AUTO_INCREMENT,
         email VARCHAR(255) UNIQUE NOT NULL,
+        name VARCHAR(50) NOT NULL,
         password VARCHAR(255) NOT NULL,
         PRIMARY KEY(id_account))`;
 
@@ -39,9 +40,9 @@ conn.connect((err) => {
       conn.query(checkRowAccount, function (errs, results) {
         if (results[0].total == 0) {
           var sqlAccountDummy = `
-            INSERT INTO account (id_account, email, password) VALUES
-              ('1','refield1@gmail.com',md5('ASD12345.')),
-              ('2','refield2@gmail.com',md5('ASD12345.'))`;
+            INSERT INTO account (id_account, email, name ,password) VALUES
+              ('1','refield1@gmail.com','Refield1',md5('ASD12345.')),
+              ('2','refield2@gmail.com','Refield2',md5('ASD12345.'))`;
           conn.query(sqlAccountDummy, function (errs, resultst) {
             if (errs) throw errs;
           });
@@ -122,9 +123,9 @@ app.post("/refield/login",  (req, res) => {
 //post account
 app.post("/refield/signup", (req, res) => {
   try {
-    let sql = `INSERT INTO account(email, password) VALUES (?)`;
+    let sql = `INSERT INTO account(email, name, password) VALUES (?)`;
 
-    let values = [req.body.email, md5(req.body.password)];
+    let values = [req.body.email, req.body.name, md5(req.body.password)];
 
     conn.query(sql, [values], (err, results) => {
       res.send(JSON.stringify({ error: err, response: results }));
