@@ -39,10 +39,10 @@ conn.connect((err) => {
       var checkRowAccount = "SELECT COUNT(*) as total FROM account";
       conn.query(checkRowAccount, function (errs, results) {
         if (results[0].total == 0) {
-          var sqlAccountDummy = `
+          var sqlAccountDummy = "
             INSERT INTO account (id_account, email, name, password) VALUES
               ('1','refield1@gmail.com', 'ReField1', md5('ASD12345.')),
-              ('2','refield2@gmail.com', 'ReField2', md5('ASD12345.'))`;
+              ('2','refield2@gmail.com', 'ReField2', md5('ASD12345.'))";
           conn.query(sqlAccountDummy, function (errs, resultst) {
             if (errs) throw errs;
           });
