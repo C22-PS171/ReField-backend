@@ -120,7 +120,7 @@ app.post("/refield/login", function (req, res) {
 });
 
 //post account
-app.post('/api/register',(req, res) => {
+app.post("/refield/signup",(req, res) => {
   let data = {email: req.body.email, password: req.body.password};
   let sql = "INSERT INTO account SET ?";
   let query = conn.query(sql, data,(err, results) => {
