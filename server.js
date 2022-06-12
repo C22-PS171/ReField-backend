@@ -120,7 +120,7 @@ app.post("/refield/login", function (req, res) {
 });
 
 //post account
-app.post('/refeield/register',(req, res) => {
+app.post('/api/register',(req, res) => {
   let data = {email: req.body.email, password: req.body.password};
   let sql = "INSERT INTO account SET ?";
   let query = conn.query(sql, data,(err, results) => {
@@ -128,15 +128,19 @@ app.post('/refeield/register',(req, res) => {
     res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
   });
 });
+// app.post("/refield/signup", function (req, res) {
+//   try {
+//     let sql = `INSERT INTO account(email, password) VALUES (?)`;
 
-//test Cloud Build
-app.get("/refield/accounts", (req, res) => {
-  let sql = "SELECT * FROM account";
-  let query = conn.query(sql, (err, results) => {
-    if (err) throw err;
-    res.send(JSON.stringify({ status: 200, error: null, response: results }));
-  });
-});
+//     let values = [req.body.email, md5(req.body.password)];
+
+//     conn.query(sql, [values], (err, results) => {
+//       res.send(JSON.stringify({ error: err, response: results }));
+//     });
+//   } catch (error) {
+//     return error.message;
+//   }
+// });
 
 //Server listening
 var port = process.env.PORT || 5000;
